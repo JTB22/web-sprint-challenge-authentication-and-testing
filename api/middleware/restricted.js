@@ -16,14 +16,12 @@ module.exports = (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "token required" });
   } else {
-    const { username } = jsonwebtoken.verify(
-      token,
-      process.env.JWT_SECRET || "shh"
-    );
-    if (username) {
-      return next();
-    } else {
-      return res.status(401).json({ message: "token invalid" });
-    }
+    jsonwebtoken.verify(token, process.env.JWT_SECRET || "shh", (err) => {
+      if (err) {
+        return res.status(401).json({ message: "token invalid" });
+      } else {
+        next();
+      }
+    });
   }
 };
