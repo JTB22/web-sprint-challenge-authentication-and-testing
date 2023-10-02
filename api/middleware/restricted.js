@@ -1,6 +1,6 @@
 const jsonwebtoken = require("jsonwebtoken");
 
-module.exports = async (req, res, next) => {
+module.exports = (req, res, next) => {
   /*
     IMPLEMENT
 
@@ -16,7 +16,7 @@ module.exports = async (req, res, next) => {
   if (!token) {
     return res.status(401).json({ message: "token required" });
   } else {
-    const { username } = await jsonwebtoken.verify(
+    const { username } = jsonwebtoken.verify(
       token,
       process.env.JWT_SECRET || "shh"
     );
